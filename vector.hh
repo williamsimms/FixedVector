@@ -1,6 +1,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#include <malloc.h>
 #include <array>
 #include <cassert>
 #include <cstddef>
@@ -51,8 +52,8 @@ class Vector {
   int Size() const noexcept;
   int Capacity() const noexcept;
   int FreeCapacity() const noexcept;
-  T& At() noexcept;
-  const T& At() const noexcept;
+  T& At(int) noexcept;
+  const T& At(int) const noexcept;
 
   void PushBack(const T&) noexcept;
   void PushBack(T&&) noexcept;
@@ -137,96 +138,134 @@ Vector<T, N>::Vector() noexcept : size(0) {}
 
 template <typename T, int N>
 Vector<T, N>::Vector(const Vector<T, N>& vector) noexcept {
-  //
+  for (int i = 0; i < N; i++) {
+    data[i] = vector.data[i];
+  }
+
+  this->size = vector.size;
 }
 
 template <typename T, int N>
 Vector<T, N>::Vector(Vector<T, N>&& vector) noexcept {
-  //
+  this->data = vector.data;
+  vector.data = nullptr;
+  vector.size = 0;
+  vector.capacity = 0;
 }
 
 template <typename T, int N>
-Vector<T, N>::Vector(const std::initializer_list<T>&) noexcept {
-  //
+Vector<T, N>::Vector(const std::initializer_list<T>& list) noexcept {
+  for (const T& value : list) {
+    PushBack(std::move(value));
+  }
 }
 
 template <typename T, int N>
-Vector<T, N>::Vector(const std::array<T, N>&) noexcept {
-  //
+Vector<T, N>::Vector(const std::array<T, N>& arr) noexcept {
+  for (int i = 0; i < N; i++) {
+    data[i] = std::move(arr.at(i));
+  }
 }
 
 template <typename T, int N>
-Vector<T, N>::Vector(const T&) noexcept {
-  //
+Vector<T, N>::Vector(const T& value) noexcept {
+  for (int i = 0; i < N; i++) {
+    data[i] = value;
+  }
 }
 
 template <typename T, int N>
-Vector<T, N>::~Vector() noexcept {
-  //
+Vector<T, N>::~Vector() noexcept = default;
+
+template <typename T, int N>
+Vector<T, N>& Vector<T, N>::operator=(const Vector<T, N>& vector) noexcept {
+  if (this == &vector) {
+    return *this;
+  }
+
+  for (int i = 0; i < N; i++) {
+    data[i] = vector.data[i];
+  }
+
+  this->size = vector.size;
+
+  return *this;
 }
 
 template <typename T, int N>
-Vector<T, N>& Vector<T, N>::operator=(const Vector<T, N>&) noexcept {
-  //
-}
+Vector<T, N>& Vector<T, N>::operator=(Vector<T, N>&& vector) noexcept {
+  if (this == &vector) {
+    return *this;
+  }
 
-template <typename T, int N>
-Vector<T, N>& Vector<T, N>::operator=(Vector<T, N>&&) noexcept {
-  //
+  this->data = vector.data;
+  vector.data = nullptr;
+  vector.size = 0;
+  vector.capacity = 0;
+
+  return *this;
 }
 
 template <typename T, int N>
 T& Vector<T, N>::operator[](int index) noexcept {
-  //
+  assert(index >= 0);
+  assert(index < capacity);
+  return this->data[index];
 }
 
 template <typename T, int N>
 const T& Vector<T, N>::operator[](int index) const noexcept {
-  //
+  assert(index >= 0);
+  assert(index < capacity);
+  return this->data[index];
 }
 
 template <typename T, int N>
 int Vector<T, N>::Size() const noexcept {
-  //
+  return size;
 }
 
 template <typename T, int N>
 int Vector<T, N>::Capacity() const noexcept {
-  //
+  return capacity;
 }
 
 template <typename T, int N>
 int Vector<T, N>::FreeCapacity() const noexcept {
+  return capacity - size;
+}
+
+template <typename T, int N>
+T& Vector<T, N>::At(int index) noexcept {
+  assert(index >= 0);
+  assert(index < capacity);
+  return this->data[index];
+}
+
+template <typename T, int N>
+const T& Vector<T, N>::At(int index) const noexcept {
+  assert(index >= 0);
+  assert(index < capacity);
+  return this->data[index];
+}
+
+template <typename T, int N>
+void Vector<T, N>::PushBack(const T& value) noexcept {
   //
 }
 
 template <typename T, int N>
-T& Vector<T, N>::At() noexcept {
+void Vector<T, N>::PushBack(T&& value) noexcept {
   //
 }
 
 template <typename T, int N>
-const T& Vector<T, N>::At() const noexcept {
+void Vector<T, N>::Insert(int index, const T& value) noexcept {
   //
 }
 
 template <typename T, int N>
-void Vector<T, N>::PushBack(const T&) noexcept {
-  //
-}
-
-template <typename T, int N>
-void Vector<T, N>::PushBack(T&&) noexcept {
-  //
-}
-
-template <typename T, int N>
-void Vector<T, N>::Insert(int index, const T&) noexcept {
-  //
-}
-
-template <typename T, int N>
-void Vector<T, N>::Insert(int index, T&&) noexcept {
+void Vector<T, N>::Insert(int index, T&& value) noexcept {
   //
 }
 
@@ -237,12 +276,12 @@ void Vector<T, N>::EmplaceBack(Args&&... args) noexcept {
 }
 
 template <typename T, int N>
-void Vector<T, N>::Assign(const std::initializer_list<T>&) noexcept {
+void Vector<T, N>::Assign(const std::initializer_list<T>& list) noexcept {
   //
 }
 
 template <typename T, int N>
-void Vector<T, N>::Assign(const std::array<T, N>&) noexcept {
+void Vector<T, N>::Assign(const std::array<T, N>& arr) noexcept {
   //
 }
 
@@ -263,72 +302,99 @@ void Vector<T, N>::Erase(int index) noexcept {
 
 template <typename T, int N>
 bool Vector<T, N>::Empty() noexcept {
-  //
+  if (size > 0) {
+    return false;
+  }
+
+  return true;
 }
 
 template <typename T, int N>
 const T& Vector<T, N>::Front() const {
-  //
+  return data[0];
 }
 
 template <typename T, int N>
 const T& Vector<T, N>::Back() const {
-  //
-}
-
-template <typename T, int N>
-const T& Vector<T, N>::Middle() const {
-  //
+  return data[size - 1];
 }
 
 template <typename T, int N>
 T& Vector<T, N>::Front() {
-  //
+  return data[0];
 }
 
 template <typename T, int N>
 T& Vector<T, N>::Back() {
-  //
+  return data[size - 1];
 }
 
 template <typename T, int N>
-T& Vector<T, N>::Middle() {
-  //
-}
-
-template <typename T, int N>
-void Vector<T, N>::Swap(T*, T*) noexcept {
-  //
+void Vector<T, N>::Swap(T* a, T* b) noexcept {
+  T t = *a;
+  *a = *b;
+  *b = t;
 }
 
 template <typename T, int N>
 T* Vector<T, N>::Data() noexcept {
-  //
+  return this->data;
 }
 
 template <typename T, int N>
 const T* Vector<T, N>::Data() const noexcept {
-  //
+  return this->data;
 }
 
 template <typename T, int N>
-T* Vector<T, N>::Find(const T&) const {
-  //
+T* Vector<T, N>::Find(const T& value) const {
+  for (int i = 0; i < capacity; i++) {
+    if (data[i] == value) {
+      return data[i];
+    }
+  }
+
+  return nullptr;
 }
 
 template <typename T, int N>
-int Vector<T, N>::IndexOf(const T&) noexcept {
-  //
+int Vector<T, N>::IndexOf(const T& value) noexcept {
+  for (int i = 0; i < capacity; i++) {
+    if (data[i] == value) {
+      return i;
+    }
+  }
+
+  return -1;
 }
 
 template <typename T, int N>
-bool Vector<T, N>::Contains(const T&) noexcept {
-  //
+bool Vector<T, N>::Contains(const T& value) noexcept {
+  for (int i = 0; i < capacity; i++) {
+    if (data[i] == value) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 template <typename T, int N>
 void Vector<T, N>::Print() {
-  //
+  if (size == 0) {
+    return;
+  }
+
+  std::cout << "[";
+  for (int i = 0; i < size; i++) {
+    std::cout << data[i];
+
+    if (i < (size - 1)) {
+      std::cout << ", ";
+    }
+  }
+
+  std::cout << "]" << std::endl;
 }
 
 template <typename T, int N>
