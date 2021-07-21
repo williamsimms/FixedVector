@@ -34,7 +34,7 @@ class Vector {
   int capacity = N;
 
  public:
-  Vector() noexcept;
+  constexpr Vector() noexcept;
   Vector(const Vector<T, N>&) noexcept;
   Vector(Vector<T, N>&&) noexcept;
   Vector(const std::initializer_list<T>&) noexcept;
@@ -44,15 +44,15 @@ class Vector {
 
   Vector<T, N>& operator=(const Vector<T, N>&) noexcept;
   Vector<T, N>& operator=(Vector<T, N>&&) noexcept;
-  bool operator==(const Vector<T, N>&);
-  bool operator!=(const Vector<T, N>&);
+  bool operator==(const Vector<T, N>&) const noexcept;
+  bool operator!=(const Vector<T, N>&) const noexcept;
 
   T& operator[](int index) noexcept;
   const T& operator[](int index) const noexcept;
 
   int Size() const noexcept;
-  int Capacity() const noexcept;
-  int FreeCapacity() const noexcept;
+  constexpr int Capacity() const noexcept;
+  constexpr int FreeCapacity() const noexcept;
 
   T& At(int) noexcept;
   const T& At(int) const noexcept;
@@ -79,7 +79,7 @@ class Vector {
   int IndexOf(const T&) noexcept;
   bool Contains(const T&) noexcept;
 
-  void Print();
+  void Print() const;
 
   Iterator begin() {
     Iterator it(data);
@@ -121,11 +121,12 @@ class Vector {
     return it;
   }
 
-  friend std::ostream& operator<<(std::ostream&, const Vector<T, N>&);
+  template <typename U, int V>
+  friend std::ostream& operator<<(std::ostream&, const Vector<U, V>&);
 };
 
 template <typename T, int N>
-Vector<T, N>::Vector() noexcept : size(0) {}
+constexpr Vector<T, N>::Vector() noexcept : size(0) {}
 
 template <typename T, int N>
 Vector<T, N>::Vector(const Vector<T, N>& vector) noexcept {
@@ -215,12 +216,12 @@ int Vector<T, N>::Size() const noexcept {
 }
 
 template <typename T, int N>
-int Vector<T, N>::Capacity() const noexcept {
+constexpr int Vector<T, N>::Capacity() const noexcept {
   return capacity;
 }
 
 template <typename T, int N>
-int Vector<T, N>::FreeCapacity() const noexcept {
+constexpr int Vector<T, N>::FreeCapacity() const noexcept {
   return capacity - size;
 }
 
@@ -347,7 +348,7 @@ bool Vector<T, N>::Contains(const T& value) noexcept {
 }
 
 template <typename T, int N>
-void Vector<T, N>::Print() {
+void Vector<T, N>::Print() const {
   if (size == 0) {
     return;
   }
@@ -376,7 +377,7 @@ bool Vector<T, N>::operator==(const Vector<T, N>& vector) const noexcept {
 }
 
 template <typename T, int N>
-bool Vector<T, N>::operator!=(const Vector<T, N>& vector) {
+bool Vector<T, N>::operator!=(const Vector<T, N>& vector) const noexcept {
   return !(*this == vector);
 }
 

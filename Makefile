@@ -6,7 +6,7 @@ build:
 	clang++ $(CXXFLAGS) main.cpp 
 
 run:
-	clang++ $(CXXFLAGS) -o main main.cpp && ./main && rm -f main
+	clang++ $(CXXFLAGS) -o main main.cc && ./main && rm -f main
 
 test:
 	clang++ $(CXXFLAGS) -o vector vector.test.cpp && ./vector && rm -f vector
