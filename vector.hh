@@ -133,17 +133,15 @@ class Vector {
 };
 
 template <typename T, int N>
-Vector<T, N>::Vector() noexcept {
+Vector<T, N>::Vector() noexcept : size(0) {}
+
+template <typename T, int N>
+Vector<T, N>::Vector(const Vector<T, N>& vector) noexcept {
   //
 }
 
 template <typename T, int N>
-Vector<T, N>::Vector(const Vector<T, N>&) noexcept {
-  //
-}
-
-template <typename T, int N>
-Vector<T, N>::Vector(Vector<T, N>&&) noexcept {
+Vector<T, N>::Vector(Vector<T, N>&& vector) noexcept {
   //
 }
 
@@ -209,6 +207,132 @@ T& Vector<T, N>::At() noexcept {
 
 template <typename T, int N>
 const T& Vector<T, N>::At() const noexcept {
+  //
+}
+
+template <typename T, int N>
+void Vector<T, N>::PushBack(const T&) noexcept {
+  //
+}
+
+template <typename T, int N>
+void Vector<T, N>::PushBack(T&&) noexcept {
+  //
+}
+
+template <typename T, int N>
+void Vector<T, N>::Insert(int index, const T&) noexcept {
+  //
+}
+
+template <typename T, int N>
+void Vector<T, N>::Insert(int index, T&&) noexcept {
+  //
+}
+
+template <typename T, int N>
+template <typename... Args>
+void Vector<T, N>::EmplaceBack(Args&&... args) noexcept {
+  //
+}
+
+template <typename T, int N>
+void Vector<T, N>::Assign(const std::initializer_list<T>&) noexcept {
+  //
+}
+
+template <typename T, int N>
+void Vector<T, N>::Assign(const std::array<T, N>&) noexcept {
+  //
+}
+
+template <typename T, int N>
+void Vector<T, N>::Assign(int count, const T& value) noexcept {
+  //
+}
+
+template <typename T, int N>
+void Vector<T, N>::PopBack() noexcept {
+  //
+}
+
+template <typename T, int N>
+void Vector<T, N>::Erase(int index) noexcept {
+  //
+}
+
+template <typename T, int N>
+bool Vector<T, N>::Empty() noexcept {
+  //
+}
+
+template <typename T, int N>
+const T& Vector<T, N>::Front() const {
+  //
+}
+
+template <typename T, int N>
+const T& Vector<T, N>::Back() const {
+  //
+}
+
+template <typename T, int N>
+const T& Vector<T, N>::Middle() const {
+  //
+}
+
+template <typename T, int N>
+T& Vector<T, N>::Front() {
+  //
+}
+
+template <typename T, int N>
+T& Vector<T, N>::Back() {
+  //
+}
+
+template <typename T, int N>
+T& Vector<T, N>::Middle() {
+  //
+}
+
+template <typename T, int N>
+void Vector<T, N>::Swap(T*, T*) noexcept {
+  //
+}
+
+template <typename T, int N>
+T* Vector<T, N>::Data() noexcept {
+  //
+}
+
+template <typename T, int N>
+const T* Vector<T, N>::Data() const noexcept {
+  //
+}
+
+template <typename T, int N>
+T* Vector<T, N>::Find(const T&) const {
+  //
+}
+
+template <typename T, int N>
+int Vector<T, N>::IndexOf(const T&) noexcept {
+  //
+}
+
+template <typename T, int N>
+bool Vector<T, N>::Contains(const T&) noexcept {
+  //
+}
+
+template <typename T, int N>
+void Vector<T, N>::Print() {
+  //
+}
+
+template <typename T, int N>
+std::ostream& operator<<(std::ostream&, const Vector<T, N>&) {
   //
 }
 
