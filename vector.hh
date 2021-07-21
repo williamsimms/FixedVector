@@ -23,7 +23,6 @@ class Vector {
   using ConstPointer = const T*;
   using ReferenceType = T&;
   using ConstReferenceType = const T&;
-
   using ConstIterator = Iterator<const Vector<T, N>>;
   using Iterator = Iterator<Vector<T, N>>;
   using ConstReverseIterator = ReverseIterator<const Vector<T, N>>;
@@ -45,6 +44,8 @@ class Vector {
 
   Vector<T, N>& operator=(const Vector<T, N>&) noexcept;
   Vector<T, N>& operator=(Vector<T, N>&&) noexcept;
+  bool operator==(const Vector<T, N>&);
+  bool operator!=(const Vector<T, N>&);
 
   T& operator[](int index) noexcept;
   const T& operator[](int index) const noexcept;
@@ -52,35 +53,25 @@ class Vector {
   int Size() const noexcept;
   int Capacity() const noexcept;
   int FreeCapacity() const noexcept;
+
   T& At(int) noexcept;
   const T& At(int) const noexcept;
 
   void PushBack(const T&) noexcept;
   void PushBack(T&&) noexcept;
 
-  void Insert(int index, const T&) noexcept;
-  void Insert(int index, T&&) noexcept;
-
   template <typename... Args>
   void EmplaceBack(Args&&... args) noexcept;
 
-  void Assign(const std::initializer_list<T>&) noexcept;
-  void Assign(const std::array<T, N>&) noexcept;
-  void Assign(int count, const T& value) noexcept;
-
   void PopBack() noexcept;
-  void Erase(int index) noexcept;
 
   bool Empty() noexcept;
 
   const T& Front() const;
   const T& Back() const;
-  const T& Middle() const;
   T& Front();
   T& Back();
-  T& Middle();
 
-  void Swap(T*, T*) noexcept;
   T* Data() noexcept;
   const T* Data() const noexcept;
 
@@ -188,7 +179,6 @@ Vector<T, N>& Vector<T, N>::operator=(const Vector<T, N>& vector) noexcept {
   }
 
   this->size = vector.size;
-
   return *this;
 }
 
@@ -202,7 +192,6 @@ Vector<T, N>& Vector<T, N>::operator=(Vector<T, N>&& vector) noexcept {
   vector.data = nullptr;
   vector.size = 0;
   vector.capacity = 0;
-
   return *this;
 }
 
@@ -251,53 +240,38 @@ const T& Vector<T, N>::At(int index) const noexcept {
 
 template <typename T, int N>
 void Vector<T, N>::PushBack(const T& value) noexcept {
-  //
+  if (size == capacity) {
+    return;
+  }
+
+  data[size] = value;
+  this->size++;
 }
 
 template <typename T, int N>
 void Vector<T, N>::PushBack(T&& value) noexcept {
-  //
-}
+  if (size == capacity) {
+    return;
+  }
 
-template <typename T, int N>
-void Vector<T, N>::Insert(int index, const T& value) noexcept {
-  //
-}
-
-template <typename T, int N>
-void Vector<T, N>::Insert(int index, T&& value) noexcept {
-  //
+  data[size] = std::move(value);
+  this->size++;
 }
 
 template <typename T, int N>
 template <typename... Args>
 void Vector<T, N>::EmplaceBack(Args&&... args) noexcept {
-  //
-}
+  if (size == capacity) {
+    return;
+  }
 
-template <typename T, int N>
-void Vector<T, N>::Assign(const std::initializer_list<T>& list) noexcept {
-  //
-}
-
-template <typename T, int N>
-void Vector<T, N>::Assign(const std::array<T, N>& arr) noexcept {
-  //
-}
-
-template <typename T, int N>
-void Vector<T, N>::Assign(int count, const T& value) noexcept {
-  //
+  data[size] = T(std::forward<Args>(args)...);
+  this->size++;
 }
 
 template <typename T, int N>
 void Vector<T, N>::PopBack() noexcept {
-  //
-}
-
-template <typename T, int N>
-void Vector<T, N>::Erase(int index) noexcept {
-  //
+  this->size--;
 }
 
 template <typename T, int N>
@@ -327,13 +301,6 @@ T& Vector<T, N>::Front() {
 template <typename T, int N>
 T& Vector<T, N>::Back() {
   return data[size - 1];
-}
-
-template <typename T, int N>
-void Vector<T, N>::Swap(T* a, T* b) noexcept {
-  T t = *a;
-  *a = *b;
-  *b = t;
 }
 
 template <typename T, int N>
@@ -398,8 +365,25 @@ void Vector<T, N>::Print() {
 }
 
 template <typename T, int N>
-std::ostream& operator<<(std::ostream&, const Vector<T, N>&) {
-  //
+bool Vector<T, N>::operator==(const Vector<T, N>& vector) const noexcept {
+  for (int i = 0; i < size; i++) {
+    if (data[i] != vector[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+template <typename T, int N>
+bool Vector<T, N>::operator!=(const Vector<T, N>& vector) {
+  return !(*this == vector);
+}
+
+template <typename T, int N>
+std::ostream& operator<<(std::ostream& os, const Vector<T, N>& vector) {
+  vector.Print();
+  return os;
 }
 
 #endif
