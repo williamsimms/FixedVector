@@ -4,6 +4,7 @@
 #include <array>
 #include <cassert>
 #include <cstddef>
+#include <functional>
 #include <initializer_list>
 #include <iostream>
 #include <memory>
@@ -33,43 +34,43 @@ class Vector {
   int capacity = N;
 
  public:
-  Vector();
-  Vector(const Vector<T, N>&);
-  Vector(Vector<T, N>&&);
-  Vector(const std::initializer_list<T>&);
-  Vector(const std::array<T, N>&);
-  Vector(const T&);
-  ~Vector();
+  Vector() noexcept;
+  Vector(const Vector<T, N>&) noexcept;
+  Vector(Vector<T, N>&&) noexcept;
+  Vector(const std::initializer_list<T>&) noexcept;
+  Vector(const std::array<T, N>&) noexcept;
+  Vector(const T&) noexcept;
+  ~Vector() noexcept;
 
-  Vector<T, N>& operator=(const Vector<T, N>&);
-  Vector<T, N>& operator=(Vector<T, N>&&);
+  Vector<T, N>& operator=(const Vector<T, N>&) noexcept;
+  Vector<T, N>& operator=(Vector<T, N>&&) noexcept;
 
-  T& operator[](int index);
-  const T& operator[](int index) const;
+  T& operator[](int index) noexcept;
+  const T& operator[](int index) const noexcept;
 
-  int Size() const;
-  int Capacity() const;
-  int FreeCapacity() const;
-  T& At();
-  const T& At() const;
+  int Size() const noexcept;
+  int Capacity() const noexcept;
+  int FreeCapacity() const noexcept;
+  T& At() noexcept;
+  const T& At() const noexcept;
 
-  void PushBack(const T&);
-  void PushBack(T&&);
+  void PushBack(const T&) noexcept;
+  void PushBack(T&&) noexcept;
 
-  void Insert(int index, const T&);
-  void Insert(int index, T&&);
+  void Insert(int index, const T&) noexcept;
+  void Insert(int index, T&&) noexcept;
 
   template <typename... Args>
-  void EmplaceBack(Args&&... args);
+  void EmplaceBack(Args&&... args) noexcept;
 
-  void Assign(const std::initializer_list<T>&);
-  void Assign(const std::array<T, N>&);
-  void Assign(int count, const T& value);
+  void Assign(const std::initializer_list<T>&) noexcept;
+  void Assign(const std::array<T, N>&) noexcept;
+  void Assign(int count, const T& value) noexcept;
 
-  void PopBack();
-  void Erase(int index);
+  void PopBack() noexcept;
+  void Erase(int index) noexcept;
 
-  bool Empty();
+  bool Empty() noexcept;
 
   const T& Front() const;
   const T& Back() const;
@@ -78,13 +79,13 @@ class Vector {
   T& Back();
   T& Middle();
 
-  void Swap(T*, T*);
-  T* Data();
-  const T* Data() const;
+  void Swap(T*, T*) noexcept;
+  T* Data() noexcept;
+  const T* Data() const noexcept;
 
   T* Find(const T&) const;
-  int IndexOf(const T&);
-  bool Contains(const T&);
+  int IndexOf(const T&) noexcept;
+  bool Contains(const T&) noexcept;
 
   void Print();
 
@@ -132,37 +133,82 @@ class Vector {
 };
 
 template <typename T, int N>
-Vector<T, N>::Vector() {
+Vector<T, N>::Vector() noexcept {
   //
 }
 
 template <typename T, int N>
-Vector<T, N>::Vector(const Vector<T, N>&) {
+Vector<T, N>::Vector(const Vector<T, N>&) noexcept {
   //
 }
 
 template <typename T, int N>
-Vector<T, N>::Vector(Vector<T, N>&&) {
+Vector<T, N>::Vector(Vector<T, N>&&) noexcept {
   //
 }
 
 template <typename T, int N>
-Vector<T, N>::Vector(const std::initializer_list<T>&) {
+Vector<T, N>::Vector(const std::initializer_list<T>&) noexcept {
   //
 }
 
 template <typename T, int N>
-Vector<T, N>::Vector(const std::array<T, N>&) {
+Vector<T, N>::Vector(const std::array<T, N>&) noexcept {
   //
 }
 
 template <typename T, int N>
-Vector<T, N>::Vector(const T&) {
+Vector<T, N>::Vector(const T&) noexcept {
   //
 }
 
 template <typename T, int N>
-Vector<T, N>::~Vector() {
+Vector<T, N>::~Vector() noexcept {
+  //
+}
+
+template <typename T, int N>
+Vector<T, N>& Vector<T, N>::operator=(const Vector<T, N>&) noexcept {
+  //
+}
+
+template <typename T, int N>
+Vector<T, N>& Vector<T, N>::operator=(Vector<T, N>&&) noexcept {
+  //
+}
+
+template <typename T, int N>
+T& Vector<T, N>::operator[](int index) noexcept {
+  //
+}
+
+template <typename T, int N>
+const T& Vector<T, N>::operator[](int index) const noexcept {
+  //
+}
+
+template <typename T, int N>
+int Vector<T, N>::Size() const noexcept {
+  //
+}
+
+template <typename T, int N>
+int Vector<T, N>::Capacity() const noexcept {
+  //
+}
+
+template <typename T, int N>
+int Vector<T, N>::FreeCapacity() const noexcept {
+  //
+}
+
+template <typename T, int N>
+T& Vector<T, N>::At() noexcept {
+  //
+}
+
+template <typename T, int N>
+const T& Vector<T, N>::At() const noexcept {
   //
 }
 
