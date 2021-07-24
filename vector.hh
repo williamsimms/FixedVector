@@ -1,15 +1,10 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#include <malloc.h>
 #include <array>
 #include <cassert>
-#include <cstddef>
-#include <functional>
 #include <initializer_list>
 #include <iostream>
-#include <memory>
-#include <ostream>
 #include <utility>
 
 #include "iterator.hh"
@@ -35,11 +30,11 @@ class Vector {
 
  public:
   constexpr Vector() noexcept;
-  Vector(const Vector<T, N>&) noexcept;
-  Vector(Vector<T, N>&&) noexcept;
-  Vector(const std::initializer_list<T>&) noexcept;
-  Vector(const std::array<T, N>&) noexcept;
-  Vector(const T&) noexcept;
+  constexpr Vector(const Vector<T, N>&) noexcept;
+  constexpr Vector(Vector<T, N>&&) noexcept;
+  constexpr Vector(const std::initializer_list<T>&) noexcept;
+  constexpr Vector(const std::array<T, N>&) noexcept;
+  constexpr Vector(const T&) noexcept;
   ~Vector() noexcept;
 
   Vector<T, N>& operator=(const Vector<T, N>&) noexcept;
@@ -129,7 +124,7 @@ template <typename T, int N>
 constexpr Vector<T, N>::Vector() noexcept : size(0) {}
 
 template <typename T, int N>
-Vector<T, N>::Vector(const Vector<T, N>& vector) noexcept {
+constexpr Vector<T, N>::Vector(const Vector<T, N>& vector) noexcept {
   for (int i = 0; i < N; i++) {
     data[i] = vector.data[i];
   }
@@ -138,7 +133,7 @@ Vector<T, N>::Vector(const Vector<T, N>& vector) noexcept {
 }
 
 template <typename T, int N>
-Vector<T, N>::Vector(Vector<T, N>&& vector) noexcept {
+constexpr Vector<T, N>::Vector(Vector<T, N>&& vector) noexcept {
   this->data = vector.data;
   vector.data = nullptr;
   vector.size = 0;
@@ -146,21 +141,21 @@ Vector<T, N>::Vector(Vector<T, N>&& vector) noexcept {
 }
 
 template <typename T, int N>
-Vector<T, N>::Vector(const std::initializer_list<T>& list) noexcept {
+constexpr Vector<T, N>::Vector(const std::initializer_list<T>& list) noexcept {
   for (const T& value : list) {
     PushBack(std::move(value));
   }
 }
 
 template <typename T, int N>
-Vector<T, N>::Vector(const std::array<T, N>& arr) noexcept {
+constexpr Vector<T, N>::Vector(const std::array<T, N>& arr) noexcept {
   for (int i = 0; i < N; i++) {
     data[i] = std::move(arr.at(i));
   }
 }
 
 template <typename T, int N>
-Vector<T, N>::Vector(const T& value) noexcept {
+constexpr Vector<T, N>::Vector(const T& value) noexcept {
   for (int i = 0; i < N; i++) {
     data[i] = value;
   }
