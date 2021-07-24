@@ -327,203 +327,29 @@ TEST_CASE(
   }
 }
 
-// TEST_CASE("Swaps the elements of two Vectors.", "[Swap Vectors]") {
-//   SECTION("Swaps the Vectors when the first vector has more elements.") {
-//     Vector<int,10> vectorOne{1, 2, 3, 4, 5};
-//     Vector<int,10> vectorTwo{1, 2};
+TEST_CASE("Returns the amount of free capacity the vector has available.",
+          "[Free Capacity]") {
+  Vector<int, 10> vectorOne{1, 2, 3, 4, 5};
 
-//     REQUIRE(vectorOne[0] == 1);
-//     REQUIRE(vectorOne[1] == 2);
-//     REQUIRE(vectorOne[2] == 3);
-//     REQUIRE(vectorOne[3] == 4);
-//     REQUIRE(vectorOne[4] == 5);
+  REQUIRE(vectorOne.Size() == 5);
+  REQUIRE(vectorOne.Capacity() == 10);
+  REQUIRE(vectorOne.FreeCapacity() == 5);
 
-//     REQUIRE(vectorTwo[0] == 1);
-//     REQUIRE(vectorTwo[1] == 2);
+  vectorOne.PushBack(6);
 
-//     REQUIRE(vectorOne.Size() == 5);
-//     REQUIRE(vectorTwo.Size() == 2);
+  REQUIRE(vectorOne.Size() == 6);
+  REQUIRE(vectorOne.Capacity() == 10);
+  REQUIRE(vectorOne.FreeCapacity() == 4);
 
-//     vectorOne.Swap(vectorTwo);
+  vectorOne.PushBack(11);
 
-//     REQUIRE(vectorTwo[0] == 1);
-//     REQUIRE(vectorTwo[1] == 2);
-//     REQUIRE(vectorTwo[2] == 3);
-//     REQUIRE(vectorTwo[3] == 4);
-//     REQUIRE(vectorTwo[4] == 5);
+  REQUIRE(vectorOne.Size() == 7);
+  REQUIRE(vectorOne.Capacity() == 10);
+  REQUIRE(vectorOne.FreeCapacity() == 3);
 
-//     REQUIRE(vectorOne[0] == 1);
-//     REQUIRE(vectorOne[1] == 2);
+  Vector<int, 20> vectorTwo{1, 2, 3, 4, 5};
+  REQUIRE(vectorTwo.Capacity() == 20);
 
-//     REQUIRE(vectorOne.Size() == 2);
-//     REQUIRE(vectorTwo.Size() == 5);
-//   }
-
-//   SECTION("Swaps the vectors when both the vectors have the same
-//   length.") {
-//     Vector<int,10> vectorOne{1, 2, 3};
-//     Vector<int,10> vectorTwo{6, 7, 8};
-
-//     REQUIRE(vectorOne[0] == 1);
-//     REQUIRE(vectorOne[1] == 2);
-//     REQUIRE(vectorOne[2] == 3);
-
-//     REQUIRE(vectorTwo[0] == 6);
-//     REQUIRE(vectorTwo[1] == 7);
-//     REQUIRE(vectorTwo[2] == 8);
-
-//     REQUIRE(vectorOne.Size() == 3);
-//     REQUIRE(vectorTwo.Size() == 3);
-
-//     vectorOne.Swap(vectorTwo);
-
-//     REQUIRE(vectorTwo[0] == 1);
-//     REQUIRE(vectorTwo[1] == 2);
-//     REQUIRE(vectorTwo[2] == 3);
-
-//     REQUIRE(vectorOne[0] == 6);
-//     REQUIRE(vectorOne[1] == 7);
-//     REQUIRE(vectorOne[2] == 8);
-
-//     REQUIRE(vectorOne.Size() == 3);
-//     REQUIRE(vectorTwo.Size() == 3);
-//   }
-// }
-
-// TEST_CASE("Concatenates one vector to the end of another.", "[Concat]") {
-//   Vector<int,10> vectorOne{1, 2, 3, 4, 5};
-//   Vector<int,10> vectorTwo{6, 7, 8, 9, 10};
-
-//   REQUIRE(vectorOne[0] == 1);
-//   REQUIRE(vectorOne[1] == 2);
-//   REQUIRE(vectorOne[2] == 3);
-//   REQUIRE(vectorOne[3] == 4);
-//   REQUIRE(vectorOne[4] == 5);
-
-//   REQUIRE(vectorTwo[0] == 6);
-//   REQUIRE(vectorTwo[1] == 7);
-//   REQUIRE(vectorTwo[2] == 8);
-//   REQUIRE(vectorTwo[3] == 9);
-//   REQUIRE(vectorTwo[4] == 10);
-
-//   vectorOne.Concat(vectorTwo);
-
-//   REQUIRE(vectorOne[0] == 1);
-//   REQUIRE(vectorOne[1] == 2);
-//   REQUIRE(vectorOne[2] == 3);
-//   REQUIRE(vectorOne[3] == 4);
-//   REQUIRE(vectorOne[4] == 5);
-//   REQUIRE(vectorOne[5] == 6);
-//   REQUIRE(vectorOne[6] == 7);
-//   REQUIRE(vectorOne[7] == 8);
-//   REQUIRE(vectorOne[8] == 9);
-//   REQUIRE(vectorOne[9] == 10);
-// }
-
-// TEST_CASE("Returns the amount of free capacity the vector has
-// available.",
-//           "[Free Capacity]") {
-//   Vector<int,10> vector{1, 2, 3, 4, 5};
-
-//   REQUIRE(vector.Size() == 5);
-//   REQUIRE(vector.Capacity() == 5);
-//   REQUIRE(vector.FreeCapacity() == 0);
-
-//   vector.PushBack(6);
-
-//   REQUIRE(vector.Size() == 6);
-//   REQUIRE(vector.Capacity() == 10);
-//   REQUIRE(vector.FreeCapacity() == 4);
-
-//   vector.Reserve(20);
-
-//   REQUIRE(vector.Size() == 6);
-//   REQUIRE(vector.Capacity() == 20);
-//   REQUIRE(vector.FreeCapacity() == 14);
-// }
-
-// TEST_CASE(
-//     "Removes elements in the Vector which suffice the passed in Function.
-//     " "Returns the amount of elements which were removed.",
-//     "[Remove If]") {
-//   SECTION("Returns 0 if the list is empty.") {
-//     Vector<int,10> vector{1, 2, 3, 4, 5};
-
-//     REQUIRE(vector.Size() == 5);
-
-//     int amountRemoved = vector.RemoveIf([](const int& number) {
-//       if (number > 10) {
-//         return true;
-//       }
-
-//       return false;
-//     });
-
-//     REQUIRE(amountRemoved == 0);
-//     REQUIRE(vector.Size() == 5);
-//   }
-
-//   SECTION(
-//       "Returns the amount of elements removed, and removes the elements
-//       which " "suffice the passed in function.") {
-//     Vector<int,10> vector{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-
-//     REQUIRE(vector.Size() == 10);
-//     REQUIRE(vector.Capacity() == 10);
-//     REQUIRE(vector.FreeCapacity() == 0);
-
-//     int amountRemoved = vector.RemoveIf([](const int& number) {
-//       if (number % 2 == 0) {
-//         return true;
-//       }
-
-//       return false;
-//     });
-
-//     REQUIRE(vector.Size() == 5);
-//     REQUIRE(vector.Capacity() == 10);
-//     REQUIRE(vector.FreeCapacity() == 5);
-
-//     REQUIRE(amountRemoved == 5);
-
-//     REQUIRE(vector[0] == 1);
-//     REQUIRE(vector[1] == 3);
-//     REQUIRE(vector[2] == 5);
-//     REQUIRE(vector[3] == 7);
-//     REQUIRE(vector[4] == 9);
-//   }
-// }
-
-// TEST_CASE(
-//     "Returns the index of the element with matching data, otherwise
-//     returns "
-//     "-1.",
-//     "[Binary Search]") {
-//   SECTION(
-//       "Returns -1 if no element in the Vector matches the passed in
-//       data.") {
-//     Vector<int,10> vector{1, 2, 3, 4, 5};
-
-//     int index = vector.BinarySeach(12);
-
-//     REQUIRE(index == -1);
-//   }
-
-//   SECTION(
-//       "Returns the index of the element whose data matches the passed in
-//       " "data.") {
-//     Vector<int,10> vector{1, 2, 3, 4, 5};
-
-//     int index = vector.BinarySeach(1);
-
-//     REQUIRE(index == 0);
-
-//     index = vector.BinarySeach(5);
-
-//     REQUIRE(index == 4);
-
-//     index = vector.BinarySeach(3);
-
-//     REQUIRE(index == 2);
-//   }
-// }
+  Vector<int, 100> vectorThree{1, 2, 3, 4, 5};
+  REQUIRE(vectorThree.Capacity() == 100);
+}
