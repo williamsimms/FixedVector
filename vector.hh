@@ -70,7 +70,8 @@ class Vector {
   T* Data() noexcept;
   const T* Data() const noexcept;
 
-  T* Find(const T&) const;
+  const T* Find(const T&) const;
+  T* Find(const T&);
   int IndexOf(const T&) noexcept;
   int LastIndexOf(const T&) noexcept;
   bool Contains(const T&) noexcept;
@@ -314,10 +315,21 @@ const T* Vector<T, N>::Data() const noexcept {
 }
 
 template <typename T, int N>
-T* Vector<T, N>::Find(const T& value) const {
+const T* Vector<T, N>::Find(const T& value) const {
   for (int i = 0; i < capacity; i++) {
     if (data[i] == value) {
-      return data[i];
+      return std::addressof(data[i]);
+    }
+  }
+
+  return nullptr;
+}
+
+template <typename T, int N>
+T* Vector<T, N>::Find(const T& value) {
+  for (int i = 0; i < capacity; i++) {
+    if (data[i] == value) {
+      return std::addressof(data[i]);
     }
   }
 
