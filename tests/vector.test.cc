@@ -163,11 +163,11 @@ TEST_CASE("Appends a new element to the end of the Vector.", "[PushBack]") {
   }
 }
 
-TEST_CASE("Removes the last element from the Vector.", "[Pop Back]") {
+TEST_CASE("Removes the last element from the Vector.", "[PopBack]") {
   Vector<int, 10> vector{1, 2, 3, 4};
 
   REQUIRE(vector.Size() == 4);
-  REQUIRE(vector.Capacity() == 4);
+  REQUIRE(vector.Capacity() == 10);
 
   REQUIRE(vector[0] == 1);
   REQUIRE(vector[1] == 2);
@@ -177,511 +177,156 @@ TEST_CASE("Removes the last element from the Vector.", "[Pop Back]") {
   vector.PopBack();
 
   REQUIRE(vector.Size() == 3);
-  REQUIRE(vector.Capacity() == 4);
+  REQUIRE(vector.Capacity() == 10);
 
   REQUIRE(vector[0] == 1);
   REQUIRE(vector[1] == 2);
   REQUIRE(vector[2] == 3);
 }
 
-//   SECTION("Removes the last element from the Vector.") {
-//     Vector<int,10> vector{1, 2, 3, 4};
-
-//     REQUIRE(vector.Size() == 4);
-//     REQUIRE(vector.Capacity() == 4);
-
-//     REQUIRE(vector[0] == 1);
-//     REQUIRE(vector[1] == 2);
-//     REQUIRE(vector[2] == 3);
-//     REQUIRE(vector[3] == 4);
-
-//     vector.Erase(3);
-
-//     REQUIRE(vector.Size() == 3);
-//     REQUIRE(vector.Capacity() == 4);
-
-//     REQUIRE(vector[0] == 1);
-//     REQUIRE(vector[1] == 2);
-//     REQUIRE(vector[2] == 3);
-//   }
-
-//   SECTION("Removes the middle element from the Vector.") {
-//     Vector<int,10> vector{1, 2, 3, 4};
-
-//     REQUIRE(vector.Size() == 4);
-//     REQUIRE(vector.Capacity() == 4);
-
-//     REQUIRE(vector[0] == 1);
-//     REQUIRE(vector[1] == 2);
-//     REQUIRE(vector[2] == 3);
-//     REQUIRE(vector[3] == 4);
-
-//     vector.Erase(1);
-
-//     REQUIRE(vector.Size() == 3);
-//     REQUIRE(vector.Capacity() == 4);
-
-//     REQUIRE(vector[0] == 1);
-//     REQUIRE(vector[1] == 3);
-//     REQUIRE(vector[2] == 4);
-//   }
-
-//   SECTION("Removes an arbritrary index from the Vector.") {
-//     Vector<int,10> vector{1, 2, 3, 4};
-
-//     REQUIRE(vector.Size() == 4);
-//     REQUIRE(vector.Capacity() == 4);
-
-//     REQUIRE(vector[0] == 1);
-//     REQUIRE(vector[1] == 2);
-//     REQUIRE(vector[2] == 3);
-//     REQUIRE(vector[3] == 4);
-
-//     vector.Erase(2);
-
-//     REQUIRE(vector.Size() == 3);
-//     REQUIRE(vector.Capacity() == 4);
-
-//     REQUIRE(vector[0] == 1);
-//     REQUIRE(vector[1] == 2);
-//     REQUIRE(vector[2] == 4);
-//   }
-// }
-
-// TEST_CASE("Returns the element at the desired index.", "[At]") {
-//   SECTION("Returns a reference to the element at the provided index.") {
-//     Vector<int,10> vector{1, 2, 3, 4};
-
-//     REQUIRE(vector.Size() == 4);
-//     REQUIRE(vector.Capacity() == 4);
-
-//     REQUIRE(vector.At(0) == 1);
-//     REQUIRE(vector.At(1) == 2);
-//     REQUIRE(vector.At(2) == 3);
-//     REQUIRE(vector.At(3) == 4);
-//   }
-
-//   SECTION("Allows for the editing of the Reference via the At function.")
-//   {
-//     Vector<int,10> vector{1, 2, 3, 4};
-
-//     REQUIRE(vector.Size() == 4);
-//     REQUIRE(vector.Capacity() == 4);
-
-//     REQUIRE(vector.At(0) == 1);
-//     REQUIRE(vector.At(1) == 2);
-//     REQUIRE(vector.At(2) == 3);
-//     REQUIRE(vector.At(3) == 4);
-
-//     vector.At(0) = 12;
-//     vector.At(3) = 22;
-
-//     REQUIRE(vector.At(0) == 12);
-//     REQUIRE(vector.At(1) == 2);
-//     REQUIRE(vector.At(2) == 3);
-//     REQUIRE(vector.At(3) == 22);
-//   }
-
-//   SECTION(
-//       "Returns a non modifiable reference to the element at the provided
-//       index " "when working with a const Vector.") {
-//     const Vector<int,10> vector{1, 2, 3, 4};
-
-//     REQUIRE(vector.Size() == 4);
-//     REQUIRE(vector.Capacity() == 4);
-
-//     REQUIRE(vector.At(0) == 1);
-//     REQUIRE(vector.At(1) == 2);
-//     REQUIRE(vector.At(2) == 3);
-//     REQUIRE(vector.At(3) == 4);
-//   }
-// }
-
-// TEST_CASE(
-//     "Generates the next capacity the vector will resize to, when it needs
-//     to " "resize.",
-//     "[Generate New Capacity]") {
-//   SECTION("If the current capacity is zero, the new capacity is one.") {
-//     Vector<char> vector;
-//     int newCapacity = vector.GenerateNewCapacity();
-//     REQUIRE(vector.Capacity() == 0);
-//     REQUIRE(newCapacity == 1);
-//   }
-
-//   SECTION(
-//       "If the current capacity is greater than 1000, the new capacity is
-//       the " "old capacity plus one quarter of the old capacity.") {
-//     Vector<char> vector;
-//     vector.Reserve(1000);
-//     int newCapacity = vector.GenerateNewCapacity();
-//     REQUIRE(vector.Capacity() == 1000);
-//     REQUIRE(newCapacity == 1250);
-//   }
-
-//   SECTION(
-//       "If the capacity is greater than zero and less than one thousand,
-//       the " "capacity is doubled.") {
-//     Vector<char> vector;
-//     vector.Reserve(10);
-//     int newCapacity = vector.GenerateNewCapacity();
-//     REQUIRE(vector.Capacity() == 10);
-//     REQUIRE(newCapacity == 20);
-//   }
-// }
-
-// TEST_CASE("Resizes the vector to the provided capacity.", "[Resize]") {
-//   SECTION(
-//       "If the desired capacity is greater than the current capacity,
-//       allocates " "new memory of the desired size, and copies over
-//       elements from previous " "vector.") {
-//     Vector<int,10> vector{1, 2, 3};
-
-//     REQUIRE(vector.Size() == 3);
-//     REQUIRE(vector.Capacity() == 3);
-
-//     REQUIRE(vector[0] == 1);
-//     REQUIRE(vector[1] == 2);
-//     REQUIRE(vector[2] == 3);
-
-//     vector.Resize(10);
-
-//     REQUIRE(vector.Size() == 3);
-//     REQUIRE(vector.Capacity() == 10);
-
-//     REQUIRE(vector[0] == 1);
-//     REQUIRE(vector[1] == 2);
-//     REQUIRE(vector[2] == 3);
-//   }
-
-//   SECTION(
-//       "If the desired capacity is lesser than the current capacity,
-//       allocates " "new memory of the desired size, and copies over
-//       elements from previous " "vector, potentially cropping elements
-//       which were once present in the " "list.") {
-//     Vector<int,10> vector{1, 2, 3, 4, 5};
-
-//     REQUIRE(vector.Size() == 5);
-//     REQUIRE(vector.Capacity() == 5);
-
-//     REQUIRE(vector[0] == 1);
-//     REQUIRE(vector[1] == 2);
-//     REQUIRE(vector[2] == 3);
-//     REQUIRE(vector[3] == 4);
-//     REQUIRE(vector[4] == 5);
-
-//     vector.Resize(3);
-
-//     REQUIRE(vector.Size() == 3);
-//     REQUIRE(vector.Capacity() == 3);
-
-//     REQUIRE(vector[0] == 1);
-//     REQUIRE(vector[1] == 2);
-//     REQUIRE(vector[2] == 3);
-//   }
-
-//   SECTION(
-//       "Doesnt Change the capacity if the desired capacity is the same as
-//       the " "current capacity.") {
-//     Vector<int,10> vector{1, 2, 3, 4, 5};
-
-//     REQUIRE(vector.Size() == 5);
-//     REQUIRE(vector.Capacity() == 5);
-
-//     REQUIRE(vector[0] == 1);
-//     REQUIRE(vector[1] == 2);
-//     REQUIRE(vector[2] == 3);
-//     REQUIRE(vector[3] == 4);
-//     REQUIRE(vector[4] == 5);
-
-//     vector.Resize(5);
-
-//     REQUIRE(vector.Size() == 5);
-//     REQUIRE(vector.Capacity() == 5);
-
-//     REQUIRE(vector[0] == 1);
-//     REQUIRE(vector[1] == 2);
-//     REQUIRE(vector[2] == 3);
-//     REQUIRE(vector[3] == 4);
-//     REQUIRE(vector[4] == 5);
-//   }
-// }
-
-// TEST_CASE("Reserves memory for the Vector.", "[Reserve]") {
-//   SECTION(
-//       "If the procided amount to reserve is less than or equal to the
-//       current " "capacity, no memory is allocated.") {
-//     Vector<int,10> vector{1, 2, 3, 4, 5};
-
-//     REQUIRE(vector.Size() == 5);
-//     REQUIRE(vector.Capacity() == 5);
-
-//     vector.Reserve(5);
-
-//     REQUIRE(vector.Size() == 5);
-//     REQUIRE(vector.Capacity() == 5);
-//   }
-
-//   SECTION(
-//       "If the provided amount to reserve is greater than the current
-//       capacity, " "the desired amount of memory is allocated, and the
-//       elements are " "copied.") {
-//     Vector<int,10> vector{1, 2, 3, 4, 5};
-
-//     REQUIRE(vector.Size() == 5);
-//     REQUIRE(vector.Capacity() == 5);
-
-//     vector.Reserve(10);
-
-//     REQUIRE(vector.Size() == 5);
-//     REQUIRE(vector.Capacity() == 10);
-//   }
-// }
-
-// TEST_CASE(
-//     "Sets the size and capacity of the vector to 0, and deallocates the "
-//     "allocated memory of the vector.",
-//     "[Clear]") {
-//   Vector<int,10> vector{1, 2, 3, 4, 5};
-
-//   REQUIRE(vector.Size() == 5);
-//   REQUIRE(vector.Capacity() == 5);
-
-//   vector.Clear();
-
-//   REQUIRE(vector.Size() == 0);
-//   REQUIRE(vector.Capacity() == 0);
-//   REQUIRE(vector.Data() == nullptr);
-// }
-
-// TEST_CASE(
-//     "Shrinks the capacity of the vector to the current size of the
-//     vector.",
-//     "[Shrink to Fit]") {
-//   SECTION("Does nothing if the current capacity and size are equal.") {
-//     Vector<int,10> vector{1, 2, 3, 4, 5};
-
-//     REQUIRE(vector.Size() == 5);
-//     REQUIRE(vector.Capacity() == 5);
-
-//     vector.ShrinkToFit();
-
-//     REQUIRE(vector.Size() == 5);
-//     REQUIRE(vector.Capacity() == 5);
-//   }
-
-//   SECTION(
-//       "If the capacity is greater than the current length, resizes the
-//       vector " "to the amount of elements in the vector, effectively
-//       shrinking the " "vector. The capacity and size of the vector will
-//       now be equal.") {
-//     Vector<int,10> vector{1, 2, 3, 4, 5};
-
-//     REQUIRE(vector.Size() == 5);
-//     REQUIRE(vector.Capacity() == 5);
-
-//     vector.PushBack(6);
-
-//     REQUIRE(vector.Size() == 6);
-//     REQUIRE(vector.Capacity() == 10);
-
-//     vector.ShrinkToFit();
-
-//     REQUIRE(vector.Size() == 6);
-//     REQUIRE(vector.Capacity() == 6);
-
-//     vector.Reserve(10);
-
-//     REQUIRE(vector.Size() == 6);
-//     REQUIRE(vector.Capacity() == 10);
-
-//     vector.ShrinkToFit();
-
-//     REQUIRE(vector.Size() == 6);
-//     REQUIRE(vector.Capacity() == 6);
-//   }
-// }
-
-// TEST_CASE("Emplaces the new element at the back of the Vector.",
-//           "[Emplace Back]") {
-//   Vector<Vector2> vector;
-
-//   REQUIRE(vector.Size() == 0);
-//   REQUIRE(vector.Capacity() == 0);
-
-//   Vector2 vector2One(2, 3);
-
-//   vector.EmplaceBack(2, 3);
-
-//   REQUIRE(vector.Size() == 1);
-//   REQUIRE(vector.Capacity() == 1);
-
-//   REQUIRE(vector.Back() == vector2One);
-
-//   Vector2 vector2Two(1, 2);
-
-//   vector.EmplaceBack(1, 2);
-//   REQUIRE(vector.Size() == 2);
-//   REQUIRE(vector.Capacity() == 2);
-
-//   REQUIRE(vector.Back() == vector2Two);
-// }
-
-// TEST_CASE("Emplaces the new element at the beginning of the Vector.",
-//           "[Emplace Front]") {
-//   Vector<Vector2> vector;
-
-//   REQUIRE(vector.Size() == 0);
-//   REQUIRE(vector.Capacity() == 0);
-
-//   Vector2 vector2One(2, 3);
-
-//   vector.EmplaceFront(2, 3);
-
-//   REQUIRE(vector.Size() == 1);
-//   REQUIRE(vector.Capacity() == 1);
-
-//   REQUIRE(vector.Front() == vector2One);
-
-//   Vector2 vector2Two(1, 2);
-
-//   vector.EmplaceFront(1, 2);
-//   REQUIRE(vector.Size() == 2);
-//   REQUIRE(vector.Capacity() == 2);
-
-//   REQUIRE(vector.Front() == vector2Two);
-// }
-
-// TEST_CASE("Emplaces the new element at the specified index of the
-// Vector.",
-//           "[Emplace Middle]") {
-//   Vector<Vector2> vector;
-
-//   REQUIRE(vector.Size() == 0);
-//   REQUIRE(vector.Capacity() == 0);
-
-//   Vector2 vector2One(2, 3);
-
-//   vector.EmplaceBack(2, 3);
-
-//   REQUIRE(vector.Size() == 1);
-//   REQUIRE(vector.Capacity() == 1);
-
-//   REQUIRE(vector.Back() == vector2One);
-
-//   Vector2 vector2Two(1, 2);
-
-//   vector.EmplaceBack(1, 2);
-//   REQUIRE(vector.Size() == 2);
-//   REQUIRE(vector.Capacity() == 2);
-
-//   REQUIRE(vector.Back() == vector2Two);
-
-//   Vector2 vector3Three(2, 6);
-//   vector.Emplace(0, 2, 6);
-//   REQUIRE(vector.Size() == 3);
-//   REQUIRE(vector.Capacity() == 4);
-
-//   REQUIRE(vector.Front() == vector3Three);
-// }
-
-// TEST_CASE(
-//     "Returns the index of the first occurence of the provided data in the
-//     " "Vector. Otherwise returns -1.",
-//     "[Index Of]") {
-//   Vector<int,10> vector{1, 2, 3, 4, 5, 5, 2, 1};
-
-//   REQUIRE(vector.IndexOf(1) == 0);
-//   REQUIRE(vector.IndexOf(2) == 1);
-//   REQUIRE(vector.IndexOf(3) == 2);
-//   REQUIRE(vector.IndexOf(4) == 3);
-//   REQUIRE(vector.IndexOf(5) == 4);
-//   REQUIRE(vector.IndexOf(12) == -1);
-// }
-
-// TEST_CASE(
-//     "Returns the index of the last occurence of the provided data in the
-//     " "Vector. Otherwise returns -1.",
-//     "[Last Index Of]") {
-//   Vector<int,10> vector{1, 2, 3, 4, 5, 5, 2, 1};
-
-//   REQUIRE(vector.LastIndexOf(1) == 7);
-//   REQUIRE(vector.LastIndexOf(2) == 6);
-//   REQUIRE(vector.LastIndexOf(3) == 2);
-//   REQUIRE(vector.LastIndexOf(4) == 3);
-//   REQUIRE(vector.LastIndexOf(5) == 5);
-//   REQUIRE(vector.LastIndexOf(12) == -1);
-// }
-
-// TEST_CASE(
-//     "Returns a pointer to the first occurrence of the element with
-//     matching " "data.",
-//     "[Find]") {
-//   SECTION(
-//       "Returns nullptr if no element in the Vector matches the passed in
-//       " "data.") {
-//     Vector<int,10> vector{1, 2, 3, 4, 5};
-
-//     REQUIRE(vector.Find(12) == nullptr);
-//   }
-
-//   SECTION("Returns a pointer to the first element found with matching
-//   data.")
-//   {
-//     Vector<int,10> vector{1, 2, 3, 4, 5, 1, 2, 3};
-
-//     REQUIRE(vector[0] == 1);
-//     REQUIRE(vector[1] == 2);
-//     REQUIRE(vector[2] == 3);
-//     REQUIRE(vector[3] == 4);
-//     REQUIRE(vector[4] == 5);
-//     REQUIRE(vector[5] == 1);
-//     REQUIRE(vector[6] == 2);
-//     REQUIRE(vector[7] == 3);
-
-//     REQUIRE(*(vector.Find(1)) == 1);
-//     REQUIRE(*(vector.Find(2)) == 2);
-//     REQUIRE(*(vector.Find(3)) == 3);
-
-//     *(vector.Find(1)) += 10;
-//     *(vector.Find(2)) += 10;
-//     *(vector.Find(3)) += 10;
-
-//     REQUIRE(vector[0] == 11);
-//     REQUIRE(vector[1] == 12);
-//     REQUIRE(vector[2] == 13);
-//     REQUIRE(vector[3] == 4);
-//     REQUIRE(vector[4] == 5);
-//     REQUIRE(vector[5] == 1);
-//     REQUIRE(vector[6] == 2);
-//     REQUIRE(vector[7] == 3);
-//   }
-
-//   SECTION(
-//       "Returns a pointer to the first element in which the provided
-//       function " "returned a truthy value for its value.") {
-//     Vector<int,10> vector{1, 2, 3, 4, 5};
-
-//     int* foundElement = vector.Find([](const int& number, int) {
-//       if (number > 2) {
-//         return true;
-//       }
-
-//       return false;
-//     });
-
-//     REQUIRE(*foundElement == 3);
-
-//     int* foundElementTwo = vector.Find([](const int& number, int) {
-//       if (number % 2 == 0) {
-//         return true;
-//       }
-
-//       return false;
-//     });
-
-//     REQUIRE(*foundElementTwo == 2);
-//   }
-// }
+TEST_CASE("Returns the element at the desired index.", "[At]") {
+  SECTION("Returns a reference to the element at the provided index.") {
+    Vector<int, 10> vector{1, 2, 3, 4};
+
+    REQUIRE(vector.Size() == 4);
+    REQUIRE(vector.Capacity() == 10);
+
+    REQUIRE(vector.At(0) == 1);
+    REQUIRE(vector.At(1) == 2);
+    REQUIRE(vector.At(2) == 3);
+    REQUIRE(vector.At(3) == 4);
+  }
+
+  SECTION("Allows for the editing of the Reference via the At function.") {
+    Vector<int, 10> vector{1, 2, 3, 4};
+
+    REQUIRE(vector.Size() == 4);
+    REQUIRE(vector.Capacity() == 10);
+
+    REQUIRE(vector.At(0) == 1);
+    REQUIRE(vector.At(1) == 2);
+    REQUIRE(vector.At(2) == 3);
+    REQUIRE(vector.At(3) == 4);
+
+    vector.At(0) = 12;
+    vector.At(3) = 22;
+
+    REQUIRE(vector.At(0) == 12);
+    REQUIRE(vector.At(1) == 2);
+    REQUIRE(vector.At(2) == 3);
+    REQUIRE(vector.At(3) == 22);
+  }
+
+  SECTION(
+      "Returns a non modifiable reference to the element at the provided index "
+      "when working with a const Vector.") {
+    const Vector<int, 10> vector{1, 2, 3, 4};
+
+    REQUIRE(vector.Size() == 4);
+    REQUIRE(vector.Capacity() == 10);
+
+    REQUIRE(vector.At(0) == 1);
+    REQUIRE(vector.At(1) == 2);
+    REQUIRE(vector.At(2) == 3);
+    REQUIRE(vector.At(3) == 4);
+  }
+}
+
+TEST_CASE("Emplaces the new element at the back of the Vector.",
+          "[Emplace Back]") {
+  Vector<Vector2, 20> vector;
+
+  REQUIRE(vector.Size() == 0);
+  REQUIRE(vector.Capacity() == 20);
+
+  Vector2 vector2One(2, 3);
+
+  vector.EmplaceBack(2, 3);
+
+  REQUIRE(vector.Size() == 1);
+  REQUIRE(vector.Capacity() == 20);
+
+  REQUIRE(vector.Back() == vector2One);
+
+  Vector2 vector2Two(1, 2);
+
+  vector.EmplaceBack(1, 2);
+  REQUIRE(vector.Size() == 2);
+  REQUIRE(vector.Capacity() == 20);
+
+  REQUIRE(vector.Back() == vector2Two);
+}
+
+TEST_CASE(
+    "Returns the index of the first occurence of the provided data in the "
+    "Vector. Otherwise returns -1.",
+    "[Index Of]") {
+  Vector<int, 10> vector{1, 2, 3, 4, 5, 5, 2, 1};
+
+  REQUIRE(vector.IndexOf(1) == 0);
+  REQUIRE(vector.IndexOf(2) == 1);
+  REQUIRE(vector.IndexOf(3) == 2);
+  REQUIRE(vector.IndexOf(4) == 3);
+  REQUIRE(vector.IndexOf(5) == 4);
+  REQUIRE(vector.IndexOf(12) == -1);
+}
+
+TEST_CASE(
+    "Returns the index of the last occurence of the provided data in the "
+    "Vector. Otherwise returns -1.",
+    "[Last Index Of]") {
+  Vector<int, 10> vector{1, 2, 3, 4, 5, 5, 2, 1};
+
+  REQUIRE(vector.LastIndexOf(1) == 7);
+  REQUIRE(vector.LastIndexOf(2) == 6);
+  REQUIRE(vector.LastIndexOf(3) == 2);
+  REQUIRE(vector.LastIndexOf(4) == 3);
+  REQUIRE(vector.LastIndexOf(5) == 5);
+  REQUIRE(vector.LastIndexOf(12) == -1);
+}
+
+TEST_CASE(
+    "Returns a pointer to the first occurrence of the element with matching "
+    "data.",
+    "[Find]") {
+  SECTION(
+      "Returns nullptr if no element in the Vector matches the passed in "
+      "data.") {
+    Vector<int, 10> vector{1, 2, 3, 4, 5};
+
+    REQUIRE(vector.Find(12) == nullptr);
+  }
+
+  SECTION("Returns a pointer to the first element found with matching  data.") {
+    Vector<int, 10> vector{1, 2, 3, 4, 5, 1, 2, 3};
+
+    REQUIRE(vector[0] == 1);
+    REQUIRE(vector[1] == 2);
+    REQUIRE(vector[2] == 3);
+    REQUIRE(vector[3] == 4);
+    REQUIRE(vector[4] == 5);
+    REQUIRE(vector[5] == 1);
+    REQUIRE(vector[6] == 2);
+    REQUIRE(vector[7] == 3);
+
+    REQUIRE(*(vector.Find(1)) == 1);
+    REQUIRE(*(vector.Find(2)) == 2);
+    REQUIRE(*(vector.Find(3)) == 3);
+
+    *(vector.Find(1)) += 10;
+    *(vector.Find(2)) += 10;
+    *(vector.Find(3)) += 10;
+
+    REQUIRE(vector[0] == 11);
+    REQUIRE(vector[1] == 12);
+    REQUIRE(vector[2] == 13);
+    REQUIRE(vector[3] == 4);
+    REQUIRE(vector[4] == 5);
+    REQUIRE(vector[5] == 1);
+    REQUIRE(vector[6] == 2);
+    REQUIRE(vector[7] == 3);
+  }
+}
 
 // TEST_CASE(
 //     "Returns a pointer to the last occurrence of the element with

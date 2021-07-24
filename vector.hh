@@ -72,6 +72,7 @@ class Vector {
 
   T* Find(const T&) const;
   int IndexOf(const T&) noexcept;
+  int LastIndexOf(const T&) noexcept;
   bool Contains(const T&) noexcept;
 
   void Print() const;
@@ -326,6 +327,17 @@ T* Vector<T, N>::Find(const T& value) const {
 template <typename T, int N>
 int Vector<T, N>::IndexOf(const T& value) noexcept {
   for (int i = 0; i < capacity; i++) {
+    if (data[i] == value) {
+      return i;
+    }
+  }
+
+  return -1;
+}
+
+template <typename T, int N>
+int Vector<T, N>::LastIndexOf(const T& value) noexcept {
+  for (int i = size - 1; i >= 0; i--) {
     if (data[i] == value) {
       return i;
     }
