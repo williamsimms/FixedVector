@@ -9,7 +9,7 @@ run:
 	clang++ $(CXXFLAGS) -o main main.cc && ./main && rm -f main
 
 test:
-	clang++ $(CXXFLAGS) -o vector vector.test.cpp && ./vector && rm -f vector
+	clang++ $(CXXFLAGS) -o vector tests/vector.test.cc && ./vector && rm -f vector
 
 clean:
 	rm -f a.exe main main.pdb main.ilk vector

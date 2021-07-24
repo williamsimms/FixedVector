@@ -135,13 +135,16 @@ constexpr Vector<T, N>::Vector(const Vector<T, N>& vector) noexcept {
 template <typename T, int N>
 constexpr Vector<T, N>::Vector(Vector<T, N>&& vector) noexcept {
   this->data = vector.data;
+  this->size = vector.size;
+  this->capacity = vector.capacity;
   vector.data = nullptr;
   vector.size = 0;
   vector.capacity = 0;
 }
 
 template <typename T, int N>
-constexpr Vector<T, N>::Vector(const std::initializer_list<T>& list) noexcept {
+constexpr Vector<T, N>::Vector(const std::initializer_list<T>& list) noexcept
+    : size(0) {
   for (const T& value : list) {
     PushBack(std::move(value));
   }
