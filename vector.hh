@@ -24,7 +24,7 @@ class Vector {
   using ReverseIterator = ReverseIterator<Vector<T, N>>;
 
  private:
-  T data[N];
+  T data[N]{};
   int size;
   int capacity = N;
 
@@ -35,85 +35,85 @@ class Vector {
   constexpr Vector(const std::initializer_list<T>&) noexcept;
   constexpr Vector(const std::array<T, N>&) noexcept;
   constexpr Vector(const T&) noexcept;
-  ~Vector() noexcept;
+  constexpr ~Vector() noexcept;
 
-  Vector<T, N>& operator=(const Vector<T, N>&) noexcept;
-  Vector<T, N>& operator=(Vector<T, N>&&) noexcept;
-  bool operator==(const Vector<T, N>&) const noexcept;
-  bool operator!=(const Vector<T, N>&) const noexcept;
+  constexpr Vector<T, N>& operator=(const Vector<T, N>&) noexcept;
+  constexpr Vector<T, N>& operator=(Vector<T, N>&&) noexcept;
+  constexpr bool operator==(const Vector<T, N>&) const noexcept;
+  constexpr bool operator!=(const Vector<T, N>&) const noexcept;
 
-  T& operator[](int index) noexcept;
-  const T& operator[](int index) const noexcept;
+  constexpr T& operator[](int index) noexcept;
+  constexpr const T& operator[](int index) const noexcept;
 
-  int Size() const noexcept;
+  constexpr int Size() const noexcept;
   constexpr int Capacity() const noexcept;
   constexpr int FreeCapacity() const noexcept;
 
-  T& At(int) noexcept;
-  const T& At(int) const noexcept;
+  constexpr T& At(int) noexcept;
+  constexpr const T& At(int) const noexcept;
 
-  void PushBack(const T&) noexcept;
-  void PushBack(T&&) noexcept;
+  constexpr void PushBack(const T&) noexcept;
+  constexpr void PushBack(T&&) noexcept;
 
   template <typename... Args>
-  void EmplaceBack(Args&&... args) noexcept;
+  constexpr void EmplaceBack(Args&&... args) noexcept;
 
-  void PopBack() noexcept;
+  constexpr void PopBack() noexcept;
 
-  bool Empty() noexcept;
+  [[nodiscard]] constexpr bool Empty() const noexcept;
 
-  const T& Front() const;
-  const T& Back() const;
-  T& Front();
-  T& Back();
+  [[nodiscard]] constexpr const T& Front() const noexcept;
+  [[nodiscard]] constexpr const T& Back() const noexcept;
+  [[nodiscard]] constexpr T& Front() noexcept;
+  [[nodiscard]] constexpr T& Back() noexcept;
 
-  T* Data() noexcept;
-  const T* Data() const noexcept;
+  [[nodiscard]] constexpr T* Data() noexcept;
+  [[nodiscard]] constexpr const T* Data() const noexcept;
 
-  const T* Find(const T&) const;
-  T* Find(const T&);
-  int IndexOf(const T&) noexcept;
-  int LastIndexOf(const T&) noexcept;
-  bool Contains(const T&) noexcept;
+  [[nodiscard]] constexpr const T* Find(const T&) const noexcept;
+  [[nodiscard]] constexpr T* Find(const T&) noexcept;
+  [[nodiscard]] constexpr int IndexOf(const T&) const noexcept;
+  [[nodiscard]] constexpr int LastIndexOf(const T&) const noexcept;
+  [[nodiscard]] constexpr bool Contains(const T&) const noexcept;
 
-  void Print() const;
+  constexpr void Print() const;
 
-  Iterator begin() {
+  constexpr Iterator begin() {
     Iterator it(data);
     return it;
   }
 
-  Iterator end() {
+  constexpr Iterator end() {
     Iterator it(data + size);
     return it;
   }
 
-  ConstIterator cbegin() {
+  constexpr ConstIterator cbegin() {
     ConstIterator it(data);
     return it;
   }
 
-  ConstIterator cend() {
+  constexpr ConstIterator cend() {
     ConstIterator it(data + size);
     return it;
   }
 
-  ReverseIterator rbegin() {
+  constexpr ReverseIterator rbegin() {
     ReverseIterator it(data + size);
     return it;
   }
 
-  ReverseIterator rend() {
+  constexpr ReverseIterator rend() {
     ReverseIterator it(data);
     return it;
   }
 
-  ConstReverseIterator crbegin() {
+  constexpr ConstReverseIterator crbegin() {
     ConstReverseIterator it(data + size);
     return it;
   }
 
-  ConstReverseIterator crend() {
+  constexpr ConstReverseIterator crend() {
     ConstReverseIterator it(data);
     return it;
   }
@@ -147,6 +147,10 @@ constexpr Vector<T, N>::Vector(Vector<T, N>&& vector) noexcept {
 template <typename T, int N>
 constexpr Vector<T, N>::Vector(const std::initializer_list<T>& list) noexcept
     : size(0) {
+  if (list.size() == 1) {
+    //
+  }
+
   for (const T& value : list) {
     PushBack(std::move(value));
   }
@@ -167,10 +171,11 @@ constexpr Vector<T, N>::Vector(const T& value) noexcept {
 }
 
 template <typename T, int N>
-Vector<T, N>::~Vector() noexcept = default;
+constexpr Vector<T, N>::~Vector() noexcept = default;
 
 template <typename T, int N>
-Vector<T, N>& Vector<T, N>::operator=(const Vector<T, N>& vector) noexcept {
+constexpr Vector<T, N>& Vector<T, N>::operator=(
+    const Vector<T, N>& vector) noexcept {
   if (this == &vector) {
     return *this;
   }
@@ -184,7 +189,8 @@ Vector<T, N>& Vector<T, N>::operator=(const Vector<T, N>& vector) noexcept {
 }
 
 template <typename T, int N>
-Vector<T, N>& Vector<T, N>::operator=(Vector<T, N>&& vector) noexcept {
+constexpr Vector<T, N>& Vector<T, N>::operator=(
+    Vector<T, N>&& vector) noexcept {
   if (this == &vector) {
     return *this;
   }
@@ -197,21 +203,21 @@ Vector<T, N>& Vector<T, N>::operator=(Vector<T, N>&& vector) noexcept {
 }
 
 template <typename T, int N>
-T& Vector<T, N>::operator[](int index) noexcept {
+constexpr T& Vector<T, N>::operator[](int index) noexcept {
   assert(index >= 0);
   assert(index < capacity);
   return this->data[index];
 }
 
 template <typename T, int N>
-const T& Vector<T, N>::operator[](int index) const noexcept {
+constexpr const T& Vector<T, N>::operator[](int index) const noexcept {
   assert(index >= 0);
   assert(index < capacity);
   return this->data[index];
 }
 
 template <typename T, int N>
-int Vector<T, N>::Size() const noexcept {
+constexpr int Vector<T, N>::Size() const noexcept {
   return size;
 }
 
@@ -226,21 +232,21 @@ constexpr int Vector<T, N>::FreeCapacity() const noexcept {
 }
 
 template <typename T, int N>
-T& Vector<T, N>::At(int index) noexcept {
+constexpr T& Vector<T, N>::At(int index) noexcept {
   assert(index >= 0);
   assert(index < capacity);
   return this->data[index];
 }
 
 template <typename T, int N>
-const T& Vector<T, N>::At(int index) const noexcept {
+constexpr const T& Vector<T, N>::At(int index) const noexcept {
   assert(index >= 0);
   assert(index < capacity);
   return this->data[index];
 }
 
 template <typename T, int N>
-void Vector<T, N>::PushBack(const T& value) noexcept {
+constexpr void Vector<T, N>::PushBack(const T& value) noexcept {
   if (size == capacity) {
     return;
   }
@@ -250,7 +256,7 @@ void Vector<T, N>::PushBack(const T& value) noexcept {
 }
 
 template <typename T, int N>
-void Vector<T, N>::PushBack(T&& value) noexcept {
+constexpr void Vector<T, N>::PushBack(T&& value) noexcept {
   if (size == capacity) {
     return;
   }
@@ -261,7 +267,7 @@ void Vector<T, N>::PushBack(T&& value) noexcept {
 
 template <typename T, int N>
 template <typename... Args>
-void Vector<T, N>::EmplaceBack(Args&&... args) noexcept {
+constexpr void Vector<T, N>::EmplaceBack(Args&&... args) noexcept {
   if (size == capacity) {
     return;
   }
@@ -271,12 +277,12 @@ void Vector<T, N>::EmplaceBack(Args&&... args) noexcept {
 }
 
 template <typename T, int N>
-void Vector<T, N>::PopBack() noexcept {
+constexpr void Vector<T, N>::PopBack() noexcept {
   this->size--;
 }
 
 template <typename T, int N>
-bool Vector<T, N>::Empty() noexcept {
+constexpr bool Vector<T, N>::Empty() const noexcept {
   if (size > 0) {
     return false;
   }
@@ -285,37 +291,37 @@ bool Vector<T, N>::Empty() noexcept {
 }
 
 template <typename T, int N>
-const T& Vector<T, N>::Front() const {
+constexpr const T& Vector<T, N>::Front() const noexcept {
   return data[0];
 }
 
 template <typename T, int N>
-const T& Vector<T, N>::Back() const {
+constexpr const T& Vector<T, N>::Back() const noexcept {
   return data[size - 1];
 }
 
 template <typename T, int N>
-T& Vector<T, N>::Front() {
+constexpr T& Vector<T, N>::Front() noexcept {
   return data[0];
 }
 
 template <typename T, int N>
-T& Vector<T, N>::Back() {
+constexpr T& Vector<T, N>::Back() noexcept {
   return data[size - 1];
 }
 
 template <typename T, int N>
-T* Vector<T, N>::Data() noexcept {
+constexpr T* Vector<T, N>::Data() noexcept {
   return this->data;
 }
 
 template <typename T, int N>
-const T* Vector<T, N>::Data() const noexcept {
+constexpr const T* Vector<T, N>::Data() const noexcept {
   return this->data;
 }
 
 template <typename T, int N>
-const T* Vector<T, N>::Find(const T& value) const {
+constexpr const T* Vector<T, N>::Find(const T& value) const noexcept {
   for (int i = 0; i < capacity; i++) {
     if (data[i] == value) {
       return std::addressof(data[i]);
@@ -326,7 +332,7 @@ const T* Vector<T, N>::Find(const T& value) const {
 }
 
 template <typename T, int N>
-T* Vector<T, N>::Find(const T& value) {
+constexpr T* Vector<T, N>::Find(const T& value) noexcept {
   for (int i = 0; i < capacity; i++) {
     if (data[i] == value) {
       return std::addressof(data[i]);
@@ -337,7 +343,7 @@ T* Vector<T, N>::Find(const T& value) {
 }
 
 template <typename T, int N>
-int Vector<T, N>::IndexOf(const T& value) noexcept {
+constexpr int Vector<T, N>::IndexOf(const T& value) const noexcept {
   for (int i = 0; i < capacity; i++) {
     if (data[i] == value) {
       return i;
@@ -348,7 +354,7 @@ int Vector<T, N>::IndexOf(const T& value) noexcept {
 }
 
 template <typename T, int N>
-int Vector<T, N>::LastIndexOf(const T& value) noexcept {
+constexpr int Vector<T, N>::LastIndexOf(const T& value) const noexcept {
   for (int i = size - 1; i >= 0; i--) {
     if (data[i] == value) {
       return i;
@@ -359,7 +365,7 @@ int Vector<T, N>::LastIndexOf(const T& value) noexcept {
 }
 
 template <typename T, int N>
-bool Vector<T, N>::Contains(const T& value) noexcept {
+constexpr bool Vector<T, N>::Contains(const T& value) const noexcept {
   for (int i = 0; i < capacity; i++) {
     if (data[i] == value) {
       return true;
@@ -370,7 +376,7 @@ bool Vector<T, N>::Contains(const T& value) noexcept {
 }
 
 template <typename T, int N>
-void Vector<T, N>::Print() const {
+constexpr void Vector<T, N>::Print() const {
   if (size == 0) {
     return;
   }
@@ -388,7 +394,8 @@ void Vector<T, N>::Print() const {
 }
 
 template <typename T, int N>
-bool Vector<T, N>::operator==(const Vector<T, N>& vector) const noexcept {
+constexpr bool Vector<T, N>::operator==(
+    const Vector<T, N>& vector) const noexcept {
   for (int i = 0; i < size; i++) {
     if (data[i] != vector[i]) {
       return false;
@@ -399,7 +406,8 @@ bool Vector<T, N>::operator==(const Vector<T, N>& vector) const noexcept {
 }
 
 template <typename T, int N>
-bool Vector<T, N>::operator!=(const Vector<T, N>& vector) const noexcept {
+constexpr bool Vector<T, N>::operator!=(
+    const Vector<T, N>& vector) const noexcept {
   return !(*this == vector);
 }
 
