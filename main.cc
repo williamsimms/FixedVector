@@ -1,5 +1,4 @@
-#include <cstdio>
-#include <format>
+#include <initializer_list>
 #include <iostream>
 
 #include "vector.hh"
@@ -7,7 +6,7 @@
 using namespace std;
 
 int main() {
-  constexpr Vector<int, 10> vector{1, 2, 3, 4, 5};
+  Vector<int, 10> vector{25};
 
   return 0;
 }

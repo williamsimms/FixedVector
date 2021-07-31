@@ -148,7 +148,12 @@ template <typename T, int N>
 constexpr Vector<T, N>::Vector(const std::initializer_list<T>& list) noexcept
     : size(0) {
   if (list.size() == 1) {
-    //
+    for (int i = 0; i < N; i++) {
+      data[i] = (*list.begin());
+    }
+
+    this->size++;
+    return;
   }
 
   for (const T& value : list) {
