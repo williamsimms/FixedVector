@@ -1,5 +1,5 @@
-#ifndef VECTOR_H
-#define VECTOR_H
+#ifndef _VECTOR_H_
+#define _VECTOR_H_
 
 #include <array>
 #include <cassert>
@@ -36,40 +36,29 @@ class Vector {
   constexpr Vector(const std::array<T, N>&) noexcept;
   constexpr Vector(const T&) noexcept;
   constexpr ~Vector() noexcept;
-
   constexpr Vector<T, N>& operator=(const Vector<T, N>&) noexcept;
   constexpr Vector<T, N>& operator=(Vector<T, N>&&) noexcept;
   constexpr bool operator==(const Vector<T, N>&) const noexcept;
   constexpr bool operator!=(const Vector<T, N>&) const noexcept;
-
-  constexpr T& operator[](int index) noexcept;
-  constexpr const T& operator[](int index) const noexcept;
-
-  constexpr int Size() const noexcept;
-  constexpr int Capacity() const noexcept;
-  constexpr int FreeCapacity() const noexcept;
-
-  constexpr T& At(int) noexcept;
-  constexpr const T& At(int) const noexcept;
-
+  [[nodiscard]] constexpr T& operator[](int index) noexcept;
+  [[nodiscard]] constexpr const T& operator[](int index) const noexcept;
+  [[nodiscard]] constexpr int Size() const noexcept;
+  [[nodiscard]] constexpr int Capacity() const noexcept;
+  [[nodiscard]] constexpr int FreeCapacity() const noexcept;
+  [[nodiscard]] constexpr T& At(int) noexcept;
+  [[nodiscard]] constexpr const T& At(int) const noexcept;
   constexpr void PushBack(const T&) noexcept;
   constexpr void PushBack(T&&) noexcept;
-
   template <typename... Args>
   constexpr void EmplaceBack(Args&&... args) noexcept;
-
   constexpr void PopBack() noexcept;
-
   [[nodiscard]] constexpr bool Empty() const noexcept;
-
   [[nodiscard]] constexpr const T& Front() const noexcept;
   [[nodiscard]] constexpr const T& Back() const noexcept;
   [[nodiscard]] constexpr T& Front() noexcept;
   [[nodiscard]] constexpr T& Back() noexcept;
-
   [[nodiscard]] constexpr T* Data() noexcept;
   [[nodiscard]] constexpr const T* Data() const noexcept;
-
   [[nodiscard]] constexpr const T* Find(const T&) const noexcept;
   [[nodiscard]] constexpr T* Find(const T&) noexcept;
   [[nodiscard]] constexpr int IndexOf(const T&) const noexcept;
@@ -149,7 +138,7 @@ constexpr Vector<T, N>::Vector(const std::initializer_list<T>& list) noexcept
     : size(0) {
   if (list.size() == 1) {
     for (int i = 0; i < N; i++) {
-      data[i] = (*list.begin());
+      data[i] = *(list.begin());
     }
 
     this->size++;
